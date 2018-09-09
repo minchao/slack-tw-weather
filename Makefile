@@ -1,6 +1,6 @@
 build:
 	dep ensure -v
-	env GOOS=linux go build -ldflags="-s -w" -o bin/app app/main.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/slash slash/main.go
 
 .PHONY: clean
 clean:
