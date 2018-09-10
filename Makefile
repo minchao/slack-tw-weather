@@ -1,11 +1,18 @@
+.PHONY: clean deps deploy lint
+
 build:
-	dep ensure -v
 	env GOOS=linux go build -ldflags="-s -w" -o bin/slash slash/main.go
 
-.PHONY: clean
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 
-.PHONY: deploy
-deploy: clean build
+deploy: clean deps lint build
 	sls deploy --verbose
+
+deps:
+	which dep || (curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh)
+	which gometalinter || (go get -u -v github.com/alecthomas/gometalinter && gometalinter --install)
+	dep ensure -v
+
+lint:
+	gometalinter --exclude=vendor --disable-all --enable=vet --enable=vetshadow --enable=gofmt ./...
