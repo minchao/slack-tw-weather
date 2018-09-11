@@ -23,8 +23,8 @@ package:
 
 functions:
   app:
-    handler: bin/slash
+    handler: bin/cmd
     events:
       - http:
-          path: slash
+          path: cmd
           method: get

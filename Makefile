@@ -1,7 +1,7 @@
 .PHONY: build clean deps deploy lint
 
 build:
-	env GOOS=linux go build -ldflags="-s -w" -o bin/slash slash/main.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/cmd cmd/main.go
 
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
