@@ -1,4 +1,4 @@
-.PHONY: build clean deps deploy lint
+.PHONY: build clean coverage coverage-view deps deploy lint test
 
 build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/cmd cmd/main.go
@@ -6,7 +6,13 @@ build:
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 
-deploy: clean deps lint build
+coverage:
+	go test -v ./... -race -coverprofile=coverage.out -covermode=atomic
+
+coverage-view:
+	go tool cover -html=coverage.out
+
+deploy: clean deps lint test build
 	sls deploy --verbose
 
 deps:
@@ -16,3 +22,6 @@ deps:
 
 lint:
 	gometalinter --exclude=vendor --disable-all --enable=vet --enable=vetshadow --enable=gofmt ./...
+
+test:
+	go test -v ./... -race

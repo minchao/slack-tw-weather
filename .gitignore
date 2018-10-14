@@ -9,3 +9,5 @@
 
 # golang vendor (dependencies) directory
 /vendor/
+
+/coverage.out
