@@ -5,6 +5,7 @@ import "github.com/spf13/cobra"
 var (
 	forecastCmd = &cobra.Command{
 		Use:     "forecast",
+		Short:   "36 hour weather forecasts",
 		Aliases: county,
 		Run:     forecastFunc,
 	}

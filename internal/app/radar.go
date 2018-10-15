@@ -4,8 +4,9 @@ import "github.com/spf13/cobra"
 
 var (
 	radarCmd = &cobra.Command{
-		Use: "radar",
-		Run: radarFunc,
+		Use:   "radar",
+		Short: "Weather radar (Composite reflectivity)",
+		Run:   radarFunc,
 	}
 )
 
