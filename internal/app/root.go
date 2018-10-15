@@ -12,3 +12,7 @@ func init() {
 	rootCmd.AddCommand(forecastCmd)
 	rootCmd.AddCommand(radarCmd)
 }
+
+func Execute() {
+	rootCmd.Execute()
+}

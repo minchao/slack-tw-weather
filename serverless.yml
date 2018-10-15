@@ -23,8 +23,8 @@ package:
 
 functions:
   app:
-    handler: bin/cmd
+    handler: bin/weather
     events:
       - http:
-          path: cmd
+          path: weather
           method: get
