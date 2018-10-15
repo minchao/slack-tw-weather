@@ -9,6 +9,7 @@ var (
 )
 
 func init() {
+	rootCmd.Version = "0.0.1"
 	rootCmd.AddCommand(forecastCmd)
 	rootCmd.AddCommand(radarCmd)
 }
