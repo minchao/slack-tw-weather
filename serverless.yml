@@ -27,4 +27,4 @@ functions:
     events:
       - http:
           path: weather
-          method: get
+          method: post
