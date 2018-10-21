@@ -1,4 +1,4 @@
-package pkg
+package slack
 
 type Message struct {
 	ResponseType string       `json:"response_type"`

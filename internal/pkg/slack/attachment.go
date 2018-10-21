@@ -1,4 +1,4 @@
-package pkg
+package slack
 
 type Attachment struct {
 	Text     string `json:"text,omitempty"`

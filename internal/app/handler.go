@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/minchao/slack-tw-weather/internal/pkg"
+	"github.com/minchao/slack-tw-weather/internal/pkg/slack"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/go-playground/form"
@@ -15,15 +16,8 @@ import (
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	fmt.Println("Received body: ", request.Body)
 
-	req, _ := http.NewRequest(request.HTTPMethod, request.Path, strings.NewReader(request.Body))
-	contentType, _ := request.Headers["Content-Type"]
-	req.Header.Add("Content-Type", contentType)
-	if err := req.ParseForm(); err != nil {
-		return events.APIGatewayProxyResponse{StatusCode: 400}, err
-	}
-
-	var command pkg.SlashCommand
-	if err := form.NewDecoder().Decode(&command, req.Form); err != nil {
+	var command slack.SlashCommand
+	if err := parseSlashCommand(request, &command); err != nil {
 		return events.APIGatewayProxyResponse{StatusCode: 400}, err
 	}
 
@@ -35,7 +29,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		output = err.Error()
 	}
 
-	message := pkg.Message{
+	message := slack.Message{
 		ResponseType: "in_channel",
 		Text:         output,
 	}
@@ -45,4 +39,17 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		StatusCode: 200,
 		Body:       string(body),
 	}, nil
+}
+
+func parseSlashCommand(request events.APIGatewayProxyRequest, command *slack.SlashCommand) error {
+	req, _ := http.NewRequest(request.HTTPMethod, request.Path, strings.NewReader(request.Body))
+	contentType, _ := request.Headers["Content-Type"]
+	req.Header.Add("Content-Type", contentType)
+	if err := req.ParseForm(); err != nil {
+		return err
+	}
+	if err := form.NewDecoder().Decode(command, req.Form); err != nil {
+		return err
+	}
+	return nil
 }

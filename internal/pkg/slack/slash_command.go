@@ -1,4 +1,4 @@
-package pkg
+package slack
 
 type SlashCommand struct {
 	Token          string `form:"token"`
