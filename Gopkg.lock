@@ -31,6 +31,14 @@
   version = "v1.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:33d3d950ce19c1163273933a3fa5333567dec85e41addd399cc9badfae9d5629"
+  name = "github.com/minchao/go-cwb"
+  packages = ["cwb"]
+  pruneopts = ""
+  revision = "720b84d3a7764e1a043b38baa760024409b6ee70"
+
+[[projects]]
   digest = "1:a1403cc8a94b8d7956ee5e9694badef0e7b051af289caad1cf668331e3ffa4f6"
   name = "github.com/spf13/cobra"
   packages = ["."]
@@ -53,6 +61,7 @@
     "github.com/aws/aws-lambda-go/events",
     "github.com/aws/aws-lambda-go/lambda",
     "github.com/go-playground/form",
+    "github.com/minchao/go-cwb/cwb",
     "github.com/spf13/cobra",
   ]
   solver-name = "gps-cdcl"

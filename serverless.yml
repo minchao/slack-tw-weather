@@ -10,6 +10,8 @@ frameworkVersion: ">=1.28.0 <2.0.0"
 provider:
   name: aws
   runtime: go1.x
+  environment:
+    CWB_API_KEY: ${env:CWB_API_KEY}
 
 # you can overwrite defaults here
 #  stage: dev

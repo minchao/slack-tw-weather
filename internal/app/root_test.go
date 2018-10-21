@@ -17,15 +17,7 @@ func Test_rootCmd(t *testing.T) {
 		},
 		{
 			"forecast",
-			[]string{"臺中市"},
-		},
-		{
-			"forecast",
-			[]string{"Taichung"},
-		},
-		{
-			"forecast",
-			[]string{"forecast", "Taichung"},
+			[]string{"forecast", "臺中市"},
 		},
 		{
 			"radar",
