@@ -17,6 +17,10 @@ func Test_rootCmd(t *testing.T) {
 		},
 		{
 			"forecast",
+			[]string{"forecast", "Taichung"},
+		},
+		{
+			"forecast",
 			[]string{"forecast", "臺中市"},
 		},
 		{

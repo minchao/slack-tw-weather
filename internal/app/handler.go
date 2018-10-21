@@ -65,7 +65,6 @@ func prepareArgs(rootCmd *cobra.Command, args []string) []string {
 			return args
 		}
 	}
-
 	// Use forecast command with county, if the command not found.
-	return []string{forecastCmd.Name(), mapCounty(args[0])}
+	return []string{forecastCmd.Name(), args[0]}
 }

@@ -13,14 +13,11 @@ import (
 
 var (
 	forecastCmd = &cobra.Command{
-		Use:   "forecast",
+		Use:   "forecast [county]",
 		Short: "36 hour weather forecasts",
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) < 1 {
 				return errors.New("requires county argument")
-			}
-			if !inCounties(args[0]) {
-				return fmt.Errorf("invalid county specified: %s", args[0])
 			}
 			return nil
 		},
@@ -54,7 +51,10 @@ var (
 )
 
 func forecastFunc(cmd *cobra.Command, args []string) error {
-	county := args[0]
+	county := mapCounty(args[0])
+	if !inCounties(county) {
+		return fmt.Errorf("invalid county specified: %s", county)
+	}
 
 	client := cwb.NewClient(os.Getenv("CWB_API_KEY"), nil)
 	forecast, _, err := client.Forecasts.Get36HourWeather(context.Background(), []string{county}, nil)
@@ -69,6 +69,28 @@ func forecastFunc(cmd *cobra.Command, args []string) error {
 	cmd.Print(strings.Join(messages, "\n"))
 
 	return nil
+}
+
+func mapCounty(name string) (county string) {
+	county = strings.Replace(name, "台", "臺", -1)
+	county = strings.ToLower(county)
+	switch county {
+	case "臺北", "taipei":
+		county = "臺北市"
+	case "新北", "臺北縣", "new taipei":
+		county = "新北市"
+	case "臺中", "臺中縣", "taichung":
+		county = "臺中市"
+	case "彰化", "changhua":
+		county = "彰化縣"
+	case "臺南", "臺南縣", "tainan":
+		county = "臺南市"
+	case "高雄", "高雄縣", "kaohsiung":
+		county = "高雄市"
+	case "台東", "taitung":
+		county = "臺東縣"
+	}
+	return county
 }
 
 func inCounties(county string) bool {
@@ -108,26 +130,4 @@ func getForecastDescription(location cwb.F36HWCountryLocation, position int) str
 		}
 	}
 	return fmt.Sprintf("%s，天氣%s，溫度 %s 至 %s 度，降雨機率百分之 %s", date, wx, minT, maxT, pop)
-}
-
-func mapCounty(name string) (county string) {
-	county = strings.Replace(name, "台", "臺", -1)
-	county = strings.ToLower(county)
-	switch county {
-	case "臺北", "taipei":
-		county = "臺北市"
-	case "新北", "臺北縣", "new taipei":
-		county = "新北市"
-	case "臺中", "臺中縣", "taichung":
-		county = "臺中市"
-	case "彰化", "changhua":
-		county = "彰化縣"
-	case "臺南", "臺南縣", "tainan":
-		county = "臺南市"
-	case "高雄", "高雄縣", "kaohsiung":
-		county = "高雄市"
-	case "台東", "taitung":
-		county = "臺東縣"
-	}
-	return county
 }
