@@ -109,3 +109,25 @@ func getForecastDescription(location cwb.F36HWCountryLocation, position int) str
 	}
 	return fmt.Sprintf("%s，天氣%s，溫度 %s 至 %s 度，降雨機率百分之 %s", date, wx, minT, maxT, pop)
 }
+
+func mapCounty(name string) (county string) {
+	county = strings.Replace(name, "台", "臺", -1)
+	county = strings.ToLower(county)
+	switch county {
+	case "臺北", "taipei":
+		county = "臺北市"
+	case "新北", "臺北縣", "new taipei":
+		county = "新北市"
+	case "臺中", "臺中縣", "taichung":
+		county = "臺中市"
+	case "彰化", "changhua":
+		county = "彰化縣"
+	case "臺南", "臺南縣", "tainan":
+		county = "臺南市"
+	case "高雄", "高雄縣", "kaohsiung":
+		county = "高雄市"
+	case "台東", "taitung":
+		county = "臺東縣"
+	}
+	return county
+}

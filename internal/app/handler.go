@@ -11,6 +11,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/go-playground/form"
+	"github.com/spf13/cobra"
 )
 
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -22,6 +23,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	args := strings.Split(command.Text, " ")
+	args = prepareArgs(rootCmd, args)
 	_, output, err := pkg.ExecuteCommandC(rootCmd, args...)
 	if err != nil {
 		fmt.Printf("Command execution error: %s", err)
@@ -52,4 +54,18 @@ func parseSlashCommand(request events.APIGatewayProxyRequest, command *slack.Sla
 		return err
 	}
 	return nil
+}
+
+func prepareArgs(rootCmd *cobra.Command, args []string) []string {
+	if len(args) > 1 {
+		return args
+	}
+	for _, c := range rootCmd.Commands() {
+		if c.Name() == args[0] {
+			return args
+		}
+	}
+
+	// Use forecast command with county, if the command not found.
+	return []string{forecastCmd.Name(), mapCounty(args[0])}
 }
