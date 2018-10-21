@@ -57,7 +57,13 @@ func parseSlashCommand(request events.APIGatewayProxyRequest, command *slack.Sla
 }
 
 func prepareArgs(rootCmd *cobra.Command, args []string) []string {
-	if len(args) > 1 {
+	if len(args) != 1 {
+		return args
+	}
+	if args[0] == "" {
+		return []string{}
+	}
+	if args[0][:1] == "-" {
 		return args
 	}
 	for _, c := range rootCmd.Commands() {
