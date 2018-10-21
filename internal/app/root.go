@@ -1,6 +1,10 @@
 package app
 
-import "github.com/spf13/cobra"
+import (
+	"os"
+
+	"github.com/spf13/cobra"
+)
 
 var (
 	rootCmd = &cobra.Command{
@@ -15,5 +19,7 @@ func init() {
 }
 
 func Execute() {
+	args := prepareArgs(rootCmd, os.Args[1:])
+	rootCmd.SetArgs(args)
 	rootCmd.Execute()
 }
