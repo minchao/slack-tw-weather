@@ -2,6 +2,7 @@
 
 build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/weather cmd/weather/main.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/funcRadar cmd/funcs/radar/main.go
 
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock

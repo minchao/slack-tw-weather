@@ -12,21 +12,33 @@ provider:
   runtime: go1.x
   environment:
     CWB_API_KEY: ${env:CWB_API_KEY}
+    RADAR_TOPIC_SNS_ARN:
+      Fn::Join:
+      - ""
+      - - "arn:aws:sns:"
+        - Ref: "AWS::Region"
+        - ":"
+        - Ref: "AWS::AccountId"
+        - ":radarTopic"
 
-# you can overwrite defaults here
-#  stage: dev
+  # you can overwrite defaults here
+  #  stage: dev
   region: ap-northeast-1
 
 package:
- exclude:
-   - ./**
- include:
-   - ./bin/**
+  exclude:
+  - ./**
+  include:
+  - ./bin/**
 
 functions:
   app:
     handler: bin/weather
     events:
-      - http:
-          path: weather
-          method: post
+    - http:
+        path: weather
+        method: post
+  funcRadar:
+    handler: bin/funcRadar
+    events:
+    - sns: radarTopic
