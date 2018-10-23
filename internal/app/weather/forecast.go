@@ -1,4 +1,4 @@
-package app
+package weather
 
 import (
 	"context"
@@ -66,7 +66,7 @@ func forecastFunc(cmd *cobra.Command, args []string) error {
 	for i := 0; i < 3; i++ {
 		messages = append(messages, getForecastDescription(forecast.Records.Location[0], i))
 	}
-	cmd.Print(strings.Join(messages, "\n"))
+	cmd.Println(strings.Join(messages, "\n"))
 
 	return nil
 }

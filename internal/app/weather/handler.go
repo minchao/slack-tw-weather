@@ -1,4 +1,4 @@
-package app
+package weather
 
 import (
 	"encoding/json"
