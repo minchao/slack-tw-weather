@@ -16,6 +16,7 @@ custom:
       - ":"
       - Ref: "AWS::AccountId"
       - ":radarTopic"
+  radarBucket: {Ref: "RadarBucket"}
 
 provider:
   name: aws
@@ -23,17 +24,24 @@ provider:
   environment:
     CWB_API_KEY: ${env:CWB_API_KEY}
     RADAR_TOPIC_SNS_ARN: ${self:custom.radarTopic}
+    RADAR_BUCKET: ${self:custom.radarBucket}
 
   # you can overwrite defaults here
   #  stage: dev
   region: ap-northeast-1
 
   iamRoleStatements:
-  - Effect: "Allow"
+  - Effect: Allow
     Action:
-    - "sns:Publish"
+    - sns:Publish
     Resource:
     - ${self:custom.radarTopic}
+  - Effect: Allow
+    Action:
+    - s3:PutObject
+    - s3:GetObject
+    - s3:GetObjectVersion
+    Resource: {Fn::GetAtt: [RadarBucket, Arn]}
 
 package:
   exclude:
@@ -52,3 +60,8 @@ functions:
     handler: bin/funcRadar
     events:
     - sns: radarTopic
+
+resources:
+  Resources:
+    RadarBucket:
+      Type: AWS::S3::Bucket
