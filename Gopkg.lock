@@ -15,6 +15,44 @@
   version = "v1.6.0"
 
 [[projects]]
+  digest = "1:40cfd6ce09c07a6ff0aaae7e9e4d90d1a2506638d385ea990124bf2fe938241b"
+  name = "github.com/aws/aws-sdk-go"
+  packages = [
+    "aws",
+    "aws/awserr",
+    "aws/awsutil",
+    "aws/client",
+    "aws/client/metadata",
+    "aws/corehandlers",
+    "aws/credentials",
+    "aws/credentials/ec2rolecreds",
+    "aws/credentials/endpointcreds",
+    "aws/credentials/stscreds",
+    "aws/csm",
+    "aws/defaults",
+    "aws/ec2metadata",
+    "aws/endpoints",
+    "aws/request",
+    "aws/session",
+    "aws/signer/v4",
+    "internal/ini",
+    "internal/sdkio",
+    "internal/sdkrand",
+    "internal/sdkuri",
+    "internal/shareddefaults",
+    "private/protocol",
+    "private/protocol/query",
+    "private/protocol/query/queryutil",
+    "private/protocol/rest",
+    "private/protocol/xml/xmlutil",
+    "service/sns",
+    "service/sts",
+  ]
+  pruneopts = ""
+  revision = "58fbceeaf77b78c7aa2d44b7a93431eba0468917"
+  version = "v1.15.60"
+
+[[projects]]
   digest = "1:4e2feb69ce9588ee0b264339d91731fc9e81078c6edf67f95ccd3942bc0e0b67"
   name = "github.com/go-playground/form"
   packages = ["."]
@@ -29,6 +67,13 @@
   pruneopts = ""
   revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
   version = "v1.0"
+
+[[projects]]
+  digest = "1:6f49eae0c1e5dab1dafafee34b207aeb7a42303105960944828c2079b92fc88e"
+  name = "github.com/jmespath/go-jmespath"
+  packages = ["."]
+  pruneopts = ""
+  revision = "0b12d6b5"
 
 [[projects]]
   branch = "master"
@@ -60,6 +105,9 @@
   input-imports = [
     "github.com/aws/aws-lambda-go/events",
     "github.com/aws/aws-lambda-go/lambda",
+    "github.com/aws/aws-sdk-go/aws",
+    "github.com/aws/aws-sdk-go/aws/session",
+    "github.com/aws/aws-sdk-go/service/sns",
     "github.com/go-playground/form",
     "github.com/minchao/go-cwb/cwb",
     "github.com/spf13/cobra",

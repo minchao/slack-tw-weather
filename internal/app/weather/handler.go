@@ -24,6 +24,9 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	args := strings.Split(command.Text, " ")
 	args = prepareArgs(rootCmd, args)
+	if command.ResponseUrl != "" {
+		args = append(args, "--response_url", command.ResponseUrl)
+	}
 	_, output, err := pkg.ExecuteCommandC(rootCmd, args...)
 	if err != nil {
 		fmt.Printf("Command execution error: %s", err)

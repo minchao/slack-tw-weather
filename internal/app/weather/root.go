@@ -10,10 +10,15 @@ var (
 	rootCmd = &cobra.Command{
 		Use: "weather",
 	}
+
+	responseUrl string
 )
 
 func init() {
 	rootCmd.Version = "0.0.1"
+
+	rootCmd.PersistentFlags().StringVarP(&responseUrl, "response_url", "", "", "Response URL")
+
 	rootCmd.AddCommand(forecastCmd)
 	rootCmd.AddCommand(radarCmd)
 }

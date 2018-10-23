@@ -23,10 +23,6 @@ func Test_rootCmd(t *testing.T) {
 			"forecast",
 			[]string{"forecast", "臺中市"},
 		},
-		{
-			"radar",
-			[]string{"radar"},
-		},
 	}
 
 	for i, test := range tests {
