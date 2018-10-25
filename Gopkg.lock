@@ -36,21 +36,34 @@
     "aws/session",
     "aws/signer/v4",
     "internal/ini",
+    "internal/s3err",
     "internal/sdkio",
     "internal/sdkrand",
     "internal/sdkuri",
     "internal/shareddefaults",
     "private/protocol",
+    "private/protocol/eventstream",
+    "private/protocol/eventstream/eventstreamapi",
     "private/protocol/query",
     "private/protocol/query/queryutil",
     "private/protocol/rest",
+    "private/protocol/restxml",
     "private/protocol/xml/xmlutil",
+    "service/s3",
     "service/sns",
     "service/sts",
   ]
   pruneopts = ""
   revision = "58fbceeaf77b78c7aa2d44b7a93431eba0468917"
   version = "v1.15.60"
+
+[[projects]]
+  digest = "1:1edcb8e554be820ed5767bf936a933f692043a0e60b29a9a1d43f8594a6124d9"
+  name = "github.com/disintegration/imaging"
+  packages = ["."]
+  pruneopts = ""
+  revision = "0bd5694c78c9c3d9a3cd06a706a8f3c59296a9ac"
+  version = "v1.5.0"
 
 [[projects]]
   digest = "1:4e2feb69ce9588ee0b264339d91731fc9e81078c6edf67f95ccd3942bc0e0b67"
@@ -84,6 +97,14 @@
   revision = "720b84d3a7764e1a043b38baa760024409b6ee70"
 
 [[projects]]
+  digest = "1:7365acd48986e205ccb8652cc746f09c8b7876030d53710ea6ef7d0bd0dcd7ca"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = ""
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
   digest = "1:a1403cc8a94b8d7956ee5e9694badef0e7b051af289caad1cf668331e3ffa4f6"
   name = "github.com/spf13/cobra"
   packages = ["."]
@@ -99,6 +120,18 @@
   revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
   version = "v1.0.3"
 
+[[projects]]
+  branch = "master"
+  digest = "1:4833eacf82629065eec04ccd54f2d1f8ec5d73abb9ecfa6b3f07480884e0495b"
+  name = "golang.org/x/image"
+  packages = [
+    "bmp",
+    "tiff",
+    "tiff/lzw",
+  ]
+  pruneopts = ""
+  revision = "9b1e201e7c4c9d6c9292ff73c2c1131e5aa5e5ac"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
@@ -107,9 +140,12 @@
     "github.com/aws/aws-lambda-go/lambda",
     "github.com/aws/aws-sdk-go/aws",
     "github.com/aws/aws-sdk-go/aws/session",
+    "github.com/aws/aws-sdk-go/service/s3",
     "github.com/aws/aws-sdk-go/service/sns",
+    "github.com/disintegration/imaging",
     "github.com/go-playground/form",
     "github.com/minchao/go-cwb/cwb",
+    "github.com/pkg/errors",
     "github.com/spf13/cobra",
   ]
   solver-name = "gps-cdcl"

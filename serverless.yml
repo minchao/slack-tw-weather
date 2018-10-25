@@ -38,10 +38,13 @@ provider:
     - ${self:custom.radarTopic}
   - Effect: Allow
     Action:
-    - s3:PutObject
-    - s3:GetObject
-    - s3:GetObjectVersion
-    Resource: {Fn::GetAtt: [RadarBucket, Arn]}
+    - s3:*
+    Resource:
+    - Fn::GetAtt: [RadarBucket, Arn]
+    - Fn::Join:
+      - ""
+      - - Fn::GetAtt: [RadarBucket, Arn]
+        - "/*"
 
 package:
   exclude:
