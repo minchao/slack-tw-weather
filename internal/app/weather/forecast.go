@@ -79,6 +79,8 @@ func mapCounty(name string) (county string) {
 		county = "臺北市"
 	case "新北", "臺北縣", "new taipei":
 		county = "新北市"
+	case "桃園":
+		county = "桃園市"
 	case "臺中", "臺中縣", "taichung":
 		county = "臺中市"
 	case "彰化", "changhua":
@@ -87,6 +89,8 @@ func mapCounty(name string) (county string) {
 		county = "臺南市"
 	case "高雄", "高雄縣", "kaohsiung":
 		county = "高雄市"
+	case "基隆":
+		county = "基隆市"
 	case "台東", "taitung":
 		county = "臺東縣"
 	}
