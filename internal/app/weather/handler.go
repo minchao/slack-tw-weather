@@ -53,10 +53,7 @@ func parseSlashCommand(request events.APIGatewayProxyRequest, command *slack.Sla
 	if err := req.ParseForm(); err != nil {
 		return err
 	}
-	if err := form.NewDecoder().Decode(command, req.Form); err != nil {
-		return err
-	}
-	return nil
+	return form.NewDecoder().Decode(command, req.Form)
 }
 
 func prepareArgs(rootCmd *cobra.Command, args []string) []string {
