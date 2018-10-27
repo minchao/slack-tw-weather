@@ -21,6 +21,7 @@ custom:
 provider:
   name: aws
   runtime: go1.x
+  memorySize: 256
   environment:
     CWB_API_KEY: ${env:CWB_API_KEY}
     RADAR_TOPIC_SNS_ARN: ${self:custom.radarTopic}
