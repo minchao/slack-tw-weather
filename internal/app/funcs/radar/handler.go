@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"image"
 	"image/jpeg"
@@ -18,7 +19,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/disintegration/imaging"
-	"github.com/pkg/errors"
 )
 
 const (
