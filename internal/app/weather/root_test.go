@@ -28,7 +28,7 @@ func Test_rootCmd(t *testing.T) {
 	for i, test := range tests {
 		c, _, err := pkg.ExecuteCommandC(rootCmd, test.args...)
 		if err != nil {
-			t.Errorf("Unexpected error: %v", err)
+			t.Errorf("(%v) Unexpected error: %v", i, err)
 		}
 		if c.Name() != test.name {
 			t.Errorf("(%v) Expected: %v, got: %v", i, test.name, c.Name())
