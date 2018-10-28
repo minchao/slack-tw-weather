@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"image"
 	"image/jpeg"
@@ -42,12 +41,12 @@ func Handler(_ context.Context, snsEvent events.SNSEvent) {
 	snsRecord := record.SNS
 	fmt.Printf("[%s %s] Message = %s \n", record.EventSource, snsRecord.Timestamp, snsRecord.Message)
 
-	imageURL, dateTime, err := fetchRadarImageURL()
+	meta, err := fetchImageMetadata()
 	if err != nil {
 		fmt.Println("fetch image error:", err)
 		return
 	}
-	t, _ := time.Parse("200601021504", dateTime)
+	t, _ := time.Parse("200601021504", meta.DateTimeSuffix)
 
 	message := slack.Message{
 		ResponseType: "in_channel",
@@ -55,7 +54,7 @@ func Handler(_ context.Context, snsEvent events.SNSEvent) {
 		Attachments: []slack.Attachment{
 			{
 				Text:     t.Format("2006/01/02 15:04"),
-				ImageURL: imageURL,
+				ImageURL: meta.URL,
 			},
 		},
 	}
@@ -66,64 +65,77 @@ func Handler(_ context.Context, snsEvent events.SNSEvent) {
 	}
 }
 
-func generateImageNameSuffix(d time.Duration) string {
+func generateImageNameSuffix(offset time.Duration) string {
 	now := time.Now().In(local)
-	t := now.Add(d).Format("200601021504")
+	t := now.Add(offset).Format("200601021504")
 	t = t[:len(t)-1] + "0"
 	return fmt.Sprintf("%s", t)
 }
 
-func fetchRadarImageURL() (imageURL string, dateTime string, err error) {
-	svc := s3.New(session.Must(session.NewSession()))
-	dateTime = generateImageNameSuffix(-time.Minute * 10)
-	filename := fmt.Sprintf("%s.jpg", dateTime)
+type metadata struct {
+	URL            string
+	Filename       string
+	DateTimeSuffix string
+}
 
-	_, err = svc.HeadObject(&s3.HeadObjectInput{
+func newMetadata(offset time.Duration) *metadata {
+	d := generateImageNameSuffix(offset)
+	f := fmt.Sprintf("%s.jpg", d)
+	return &metadata{
+		URL:            fmt.Sprintf(imageURLFormat, region, bucket, f),
+		Filename:       fmt.Sprintf("%s.jpg", d),
+		DateTimeSuffix: d,
+	}
+}
+
+func fetchImageMetadata() (*metadata, error) {
+	svc := s3.New(session.Must(session.NewSession()))
+	meta := newMetadata(-time.Minute * 10)
+
+	_, err := svc.HeadObject(&s3.HeadObjectInput{
 		Bucket: aws.String(bucket),
-		Key:    aws.String(filename),
+		Key:    aws.String(meta.Filename),
 	})
 	if err == nil {
-		return fmt.Sprintf(imageURLFormat, region, bucket, filename), dateTime, nil
+		return meta, nil
 	}
 
-	source, _, err := fetchSourceImage(dateTime)
+	source, err := fetchSourceImage(meta.DateTimeSuffix)
 	if err != nil {
 		// Retry
-		dateTime = generateImageNameSuffix(-time.Minute * 20)
-		source, _, err = fetchSourceImage(dateTime)
+		meta = newMetadata(-time.Minute * 20)
+		source, err = fetchSourceImage(meta.DateTimeSuffix)
 		if err != nil {
-			return "", "", errors.New("failed to fetch radar image")
+			return nil, err
 		}
 	}
 	thumbnail, err := createThumbnail(source)
 	if err != nil {
-		return "", "", errors.New("failed to create thumbnail")
+		return nil, err
 	}
 
 	_, err = svc.PutObject(&s3.PutObjectInput{
 		Bucket: aws.String(bucket),
-		Key:    aws.String(filename),
+		Key:    aws.String(meta.Filename),
 		ACL:    aws.String("public-read"),
 		Body:   bytes.NewReader(thumbnail.Bytes()),
 		Metadata: map[string]*string{
 			"Key": aws.String("MetadataValue"),
 		},
 	})
-	if err != nil {
-		return "", "", err
-	}
 
-	return fmt.Sprintf(imageURLFormat, region, bucket, filename), dateTime, nil
+	return meta, nil
 }
 
-func fetchSourceImage(dateTime string) (image.Image, string, error) {
+func fetchSourceImage(dateTime string) (image.Image, error) {
 	resp, err := http.Get(fmt.Sprintf(sourceImageURLFormat, dateTime))
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
-	return image.Decode(resp.Body)
+	i, _, err := image.Decode(resp.Body)
+	return i, err
 }
 
 func createThumbnail(img image.Image) (*bytes.Buffer, error) {
