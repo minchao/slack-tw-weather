@@ -100,7 +100,7 @@ func fetchRadarImageURL() (imageURL string, dateTime string, err error) {
 		return "", "", errors.New("failed to create thumbnail")
 	}
 
-	_, err = svc.PutObjectWithContext(context.Background(), &s3.PutObjectInput{
+	_, err = svc.PutObject(&s3.PutObjectInput{
 		Bucket: aws.String(bucket),
 		Key:    aws.String(filename),
 		ACL:    aws.String("public-read"),
