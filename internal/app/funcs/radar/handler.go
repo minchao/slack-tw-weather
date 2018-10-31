@@ -46,7 +46,7 @@ func Handler(_ context.Context, snsEvent events.SNSEvent) {
 		fmt.Println("fetch image error:", err)
 		return
 	}
-	t, _ := time.Parse("200601021504", meta.DateTimeSuffix)
+	t, _ := time.Parse("200601021504", meta.dateTime)
 
 	message := slack.Message{
 		ResponseType: "in_channel",
@@ -54,7 +54,7 @@ func Handler(_ context.Context, snsEvent events.SNSEvent) {
 		Attachments: []slack.Attachment{
 			{
 				Text:     t.Format("2006/01/02 15:04"),
-				ImageURL: meta.URL,
+				ImageURL: meta.url,
 			},
 		},
 	}
@@ -65,7 +65,7 @@ func Handler(_ context.Context, snsEvent events.SNSEvent) {
 	}
 }
 
-func generateImageNameSuffix(offset time.Duration) string {
+func createDateTime(offset time.Duration) string {
 	now := time.Now().In(local)
 	t := now.Add(offset).Format("200601021504")
 	t = t[:len(t)-1] + "0"
@@ -73,18 +73,18 @@ func generateImageNameSuffix(offset time.Duration) string {
 }
 
 type metadata struct {
-	URL            string
-	Filename       string
-	DateTimeSuffix string
+	dateTime string
+	filename string
+	url      string
 }
 
 func newMetadata(offset time.Duration) *metadata {
-	d := generateImageNameSuffix(offset)
+	d := createDateTime(offset)
 	f := fmt.Sprintf("%s.jpg", d)
 	return &metadata{
-		URL:            fmt.Sprintf(imageURLFormat, region, bucket, f),
-		Filename:       fmt.Sprintf("%s.jpg", d),
-		DateTimeSuffix: d,
+		dateTime: d,
+		filename: fmt.Sprintf("%s.jpg", d),
+		url:      fmt.Sprintf(imageURLFormat, region, bucket, f),
 	}
 }
 
@@ -94,17 +94,17 @@ func fetchImageMetadata() (*metadata, error) {
 
 	_, err := svc.HeadObject(&s3.HeadObjectInput{
 		Bucket: aws.String(bucket),
-		Key:    aws.String(meta.Filename),
+		Key:    aws.String(meta.filename),
 	})
 	if err == nil {
 		return meta, nil
 	}
 
-	source, err := fetchSourceImage(meta.DateTimeSuffix)
+	source, err := fetchSourceImage(meta.dateTime)
 	if err != nil {
 		// Retry
 		meta = newMetadata(-time.Minute * 20)
-		source, err = fetchSourceImage(meta.DateTimeSuffix)
+		source, err = fetchSourceImage(meta.dateTime)
 		if err != nil {
 			return nil, err
 		}
@@ -116,7 +116,7 @@ func fetchImageMetadata() (*metadata, error) {
 
 	_, err = svc.PutObject(&s3.PutObjectInput{
 		Bucket: aws.String(bucket),
-		Key:    aws.String(meta.Filename),
+		Key:    aws.String(meta.filename),
 		ACL:    aws.String("public-read"),
 		Body:   bytes.NewReader(thumbnail.Bytes()),
 		Metadata: map[string]*string{
