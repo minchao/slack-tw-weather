@@ -20,6 +20,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&responseUrl, "response_url", "", "", "Response URL")
 
 	rootCmd.AddCommand(forecastCmd)
+	rootCmd.AddCommand(forecastTownshipCmd)
 	rootCmd.AddCommand(radarCmd)
 }
 

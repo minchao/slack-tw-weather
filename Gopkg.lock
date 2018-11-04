@@ -15,7 +15,7 @@
   version = "v1.6.0"
 
 [[projects]]
-  digest = "1:40cfd6ce09c07a6ff0aaae7e9e4d90d1a2506638d385ea990124bf2fe938241b"
+  digest = "1:369d0aa7c0d4f891548051d1817cf250404343487e2bff6de0e07e6cf8cb9623"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -54,8 +54,8 @@
     "service/sts",
   ]
   pruneopts = ""
-  revision = "58fbceeaf77b78c7aa2d44b7a93431eba0468917"
-  version = "v1.15.60"
+  revision = "3264db248fe8d241f6949ed35e33b11c0aec3c93"
+  version = "v1.15.68"
 
 [[projects]]
   digest = "1:1edcb8e554be820ed5767bf936a933f692043a0e60b29a9a1d43f8594a6124d9"
@@ -90,11 +90,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:33d3d950ce19c1163273933a3fa5333567dec85e41addd399cc9badfae9d5629"
+  digest = "1:725620a970bbab29b4d7ea74777ea5a0fd6ee2e08e68647dd7183415d2ba8cd5"
   name = "github.com/minchao/go-cwb"
   packages = ["cwb"]
   pruneopts = ""
-  revision = "720b84d3a7764e1a043b38baa760024409b6ee70"
+  revision = "6f6afa83b9d272c36ace1bb29834e1007bed8643"
 
 [[projects]]
   digest = "1:a1403cc8a94b8d7956ee5e9694badef0e7b051af289caad1cf668331e3ffa4f6"
@@ -114,7 +114,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:4833eacf82629065eec04ccd54f2d1f8ec5d73abb9ecfa6b3f07480884e0495b"
+  digest = "1:9b06f76e8937265d0bf00c1081b1a3db7ea68f5e0a7443a09459beb3ee44c2e4"
   name = "golang.org/x/image"
   packages = [
     "bmp",
@@ -122,7 +122,7 @@
     "tiff/lzw",
   ]
   pruneopts = ""
-  revision = "9b1e201e7c4c9d6c9292ff73c2c1131e5aa5e5ac"
+  revision = "63626fb251ce5d89650d28bc5d6ccd7d63a70fef"
 
 [solve-meta]
   analyzer-name = "dep"
