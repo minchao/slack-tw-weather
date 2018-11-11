@@ -42,7 +42,7 @@ func forecastTownshipFunc(cmd *cobra.Command, args []string) error {
 	forecast, _, err := client.Forecasts.GetTownshipsWeatherByLocations(context.Background(),
 		[]string{location.DataSet[0].Name},
 		[]string{township},
-		[]string{"WeatherDescription"},
+		[]string{"Wx,PoP6h,T,CI,RH"},
 	)
 	if err != nil {
 		return err
@@ -52,23 +52,54 @@ func forecastTownshipFunc(cmd *cobra.Command, args []string) error {
 	}
 
 	var messages []string
+	var j = 0
 	for i := 0; i < 24; i++ {
-		messages = append(messages,
-			getTownshipForecastDescription(forecast.Records.Locations[0].Location[0], i))
+		if msg := getTownshipForecastDescription(forecast.Records.Locations[0].Location[0].WeatherElement, i); msg != "" {
+			messages = append(messages, msg)
+			j++
+		}
+		if j == 6 {
+			break
+		}
 	}
 	cmd.Println(strings.Join(messages, "\n"))
 
 	return nil
 }
 
-func getTownshipForecastDescription(location cwb.FTWDatasetLocation, position int) string {
-	var date, description string
+func getTownshipForecastDescription(elements []cwb.FTWWeatherElement, position int) string {
+	var date, d, wx, pop6h, t, ci, rh string
 
-	for _, element := range location.WeatherElement {
-		if element.ElementName == "WeatherDescription" {
-			date = *element.Time[position].StartTime
-			description = element.Time[position].ElementValue[0].Value
+	date = *elements[0].Time[position].StartTime
+	switch date[11:16] {
+	case "00:00", "03:00", "09:00", "15:00", "21:00":
+		return ""
+	case "06:00":
+		d = "上午"
+	case "12:00":
+		d = "下午"
+	case "18:00":
+		d = "晚上"
+	}
+
+	for _, element := range elements {
+		switch element.ElementName {
+		case "Wx":
+			wx = element.Time[position].ElementValue[0].Value
+		case "T":
+			t = element.Time[position].ElementValue[0].Value
+		case "CI":
+			ci = element.Time[position].ElementValue[1].Value
+		case "RH":
+			rh = element.Time[position].ElementValue[0].Value
+		case "PoP6h":
+			for _, pop := range element.Time {
+				if *pop.StartTime == date {
+					pop6h = pop.ElementValue[0].Value
+				}
+			}
 		}
 	}
-	return fmt.Sprintf("%s，天氣%s", date[5:16], description)
+	return fmt.Sprintf("%s/%s %s，天氣%s，降雨機率 %s%%，溫度 %s 度，%s，相對濕度 %s%%",
+		date[5:7], date[8:10], d, wx, pop6h, t, ci, rh)
 }

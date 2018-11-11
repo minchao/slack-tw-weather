@@ -133,5 +133,5 @@ func getForecastDescription(location cwb.F36HWCountryLocation, position int) str
 			maxT = element.Time[position].Parameter.ParameterName
 		}
 	}
-	return fmt.Sprintf("%s，天氣%s，溫度 %s 至 %s 度，降雨機率百分之 %s", date, wx, minT, maxT, pop)
+	return fmt.Sprintf("%s，天氣%s，降雨機率 %s%%，溫度 %s 至 %s 度", date, wx, pop, minT, maxT)
 }
