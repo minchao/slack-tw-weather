@@ -21,6 +21,7 @@ func init() {
 
 	rootCmd.AddCommand(forecastCmd)
 	rootCmd.AddCommand(forecastTownshipCmd)
+	rootCmd.AddCommand(forecastPm25Cmd)
 	rootCmd.AddCommand(radarCmd)
 }
 

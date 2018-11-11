@@ -15,7 +15,7 @@
   version = "v1.6.0"
 
 [[projects]]
-  digest = "1:369d0aa7c0d4f891548051d1817cf250404343487e2bff6de0e07e6cf8cb9623"
+  digest = "1:f2d2a2cb77297e9f55137e8933253ac7c7616636b901a0a3ee96d1ef7aa75e99"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -54,8 +54,8 @@
     "service/sts",
   ]
   pruneopts = ""
-  revision = "3264db248fe8d241f6949ed35e33b11c0aec3c93"
-  version = "v1.15.68"
+  revision = "cf00ea20983ce38df17ab0a0814463ab8838459f"
+  version = "v1.15.73"
 
 [[projects]]
   digest = "1:1edcb8e554be820ed5767bf936a933f692043a0e60b29a9a1d43f8594a6124d9"
@@ -97,6 +97,14 @@
   revision = "6f6afa83b9d272c36ace1bb29834e1007bed8643"
 
 [[projects]]
+  branch = "master"
+  digest = "1:91f998cf1c568d62331166e0d6ea5f843ebcc52e8e75cb4632ef2d0b607d03dd"
+  name = "github.com/minchao/go-epa"
+  packages = ["."]
+  pruneopts = ""
+  revision = "9b01bb7b395ab10ac2ec476ad227b6c39a0d423b"
+
+[[projects]]
   digest = "1:a1403cc8a94b8d7956ee5e9694badef0e7b051af289caad1cf668331e3ffa4f6"
   name = "github.com/spf13/cobra"
   packages = ["."]
@@ -114,7 +122,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:9b06f76e8937265d0bf00c1081b1a3db7ea68f5e0a7443a09459beb3ee44c2e4"
+  digest = "1:1da7ae3598dc309aa0bfb82f6ea370a32dc184998aebe8f8a04e8702ed628cb1"
   name = "golang.org/x/image"
   packages = [
     "bmp",
@@ -122,7 +130,7 @@
     "tiff/lzw",
   ]
   pruneopts = ""
-  revision = "63626fb251ce5d89650d28bc5d6ccd7d63a70fef"
+  revision = "249dc8530c0efc2766606a940c1c50b434b2f1cd"
 
 [solve-meta]
   analyzer-name = "dep"
@@ -137,6 +145,7 @@
     "github.com/disintegration/imaging",
     "github.com/go-playground/form",
     "github.com/minchao/go-cwb/cwb",
+    "github.com/minchao/go-epa",
     "github.com/spf13/cobra",
   ]
   solver-name = "gps-cdcl"
