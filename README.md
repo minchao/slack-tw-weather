@@ -17,9 +17,10 @@ Available slash commands:
 
 ## Requirements
 
-- Golang
-- Node.js >= v6.5.0
-- Serverless >= 1.28.0 (You can run `yarn global add serverless` to install it)
+- [AWS](https://aws.amazon.com)
+- [Golang](https://golang.org/)
+- [Node.js](https://nodejs.org) >= v6.5.0
+- [Serverless](https://serverless.com/) >= 1.28.0 (You can run `yarn global add serverless` to install it)
 
 ## Quick start
 
